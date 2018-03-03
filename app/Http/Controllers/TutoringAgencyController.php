@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\AccountLogin;
 use App\Model\Category;
 use App\Model\Contact;
 use App\Model\SubCategory;
@@ -49,13 +50,17 @@ class TutoringAgencyController extends Controller
             'tutoring_agency' => $request->tutoring_agency,
             'address' => "foo",
             'description' => "foo",
-            'tags' => "foo",
+            'tags' => [],
             'verified' => '0',
             'rating' => '4.5',
             'total_views' => 1,
         ]);
 
         Contact::create([
+            'tutoring_agency_id' => $tutoring_agency->id
+        ]);
+
+        AccountLogin::create([
             'tutoring_agency_id' => $tutoring_agency->id
         ]);
 
@@ -91,7 +96,19 @@ class TutoringAgencyController extends Controller
      */
     public function edit(TutoringAgency $tutoring_agency)
     {
-        return view('pages.tutoring-agency.edit-tutoring-agency-contact', compact('tutoring_agency'));
+        foreach ($tutoring_agency->category_id as $categories){
+            $category = Category::find($categories);
+            $category_id [] = $category->id;
+        }
+
+        foreach ($tutoring_agency->sub_category_id as $sub_categories){
+            $sub_category = SubCategory::find($sub_categories);
+            $sub_category_id [] = $sub_category->id;
+        }
+
+        $category = Category::all();
+        $sub_category = SubCategory::all();
+        return view('pages.tutoring-agency.edit-tutoring-agency-contact', compact('tutoring_agency','category','sub_category','category_id','sub_category_id'));
     }
 
     /**
@@ -104,13 +121,13 @@ class TutoringAgencyController extends Controller
     public function update(Request $request, TutoringAgency $tutoring_agency)
     {
         $tutoring_agency->update([
-//            cateogory belum
-//            sub category belum
+            'category_id' => $request->category_id,
+            'sub_category_id' => $request->sub_category_id,
             'slug' => str_slug($request->tutoring_agency),
             'tutoring_agency' => $request->tutoring_agency,
             'address' => $request->address,
             'description' => $request->description,
-            'tags' => $request->tags,
+            'tags' => explode(",", $request->tags),
             'verified' => $request->verified,
         ]);
 

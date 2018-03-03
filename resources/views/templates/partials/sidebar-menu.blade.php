@@ -15,8 +15,8 @@
             </li>
             <li><a><i class="fa fa-cogs"></i> SETUP <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="form.html">General Form</a></li>
-                    <li><a href="form_advanced.html">Advanced Components</a></li>
+                    <li><a href="{{ route('category.sub.index') }}">Category & Sub Category</a></li>
+                    <li><a href="d">Advanced Components</a></li>
                 </ul>
             </li>
         </ul>
@@ -26,7 +26,7 @@
         <ul class="nav side-menu">
             <li><a><i class="fa fa-users"></i> USERS <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="s">Data Users</a></li>
+                    <li><a href="{{ route('data-users.index') }}">Data Users</a></li>
                     <li><a href="s">Statistic Presentation</a></li>
                 </ul>
             </li>

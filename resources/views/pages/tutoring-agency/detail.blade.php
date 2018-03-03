@@ -64,11 +64,35 @@
                             <label for="" class="label label-default">{{ $sub_category }}</label>
                         @endforeach
                     <div class="ln_solid"></div>
-                    <b>Tags : </b> {{ $tutoring_agency->tags ? $tutoring_agency->tags : '-'  }}
+                    <b>Tags : </b>
+                        @forelse($tutoring_agency->tags as $tags)
+                        <label for="" class="label label-default">#{{ $tags }}</label>
+                        @empty
+                                -
+                        @endforelse
                 </div>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Account Login</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a href="{{ route('tutoring-agency.edit', $tutoring_agency) }}" target="_blank" class="dropdown-toggle"><i class="fa fa-pencil"></i></a></li>
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    @foreach($tutoring_agency->account_login()->get() as $account)
+                        <b>Email : </b> {{ $account->email ? $account->email : 'Not Found' }}
+                        <br>
+                        <b>Password : </b> {{ $account->password ? '***Secret***' : 'Not Found' }}
+                    @endforeach
+                </div>
+            </div>
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Contacts</h2>
@@ -82,17 +106,15 @@
                 </div>
                 <div class="x_content">
                     @forelse($tutoring_agency->contact()->get() as $contact)
-                        <a href="{{ $contact->website }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-globe"></i> {{ $contact->website }}</a>
-                        <a href="{{ $contact->office_phone }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-phone"></i> {{ $contact->office_phone }}</a>
-                        <a href="{{ $contact->mobile_phone }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-mobile"></i> {{ $contact->mobile_phone }}</a>
-                        <a href="{{ $contact->email }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-envelope"></i> {{ $contact->email }}</a>
-                        <a href="{{ $contact->facebook }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-facebook"></i> {{ $contact->facebook }}</a>
-                        <a href="{{ $contact->instagram }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-instagram"></i> {{ $contact->instagram }}</a>
+                        <a href="{{ $contact->website }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-globe"></i> {{ $contact->website ? $contact->website : 'Not Found' }}</a>
+                        <a href="{{ $contact->office_phone }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-phone"></i> {{ $contact->office_phone ? $contact->office_phone : 'Not Found' }}</a>
+                        <a href="{{ $contact->mobile_phone }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-mobile"></i> {{ $contact->mobile_phone ? $contact->mobile_phone : 'Not Found' }}</a>
+                        <a href="{{ $contact->email }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-envelope"></i> {{ $contact->email ? $contact->email : 'Not Found' }}</a>
+                        <a href="{{ $contact->facebook }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-facebook"></i> {{ $contact->facebook ? $contact->facebook : 'Not Found' }}</a>
+                        <a href="{{ $contact->instagram }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-instagram"></i> {{ $contact->instagram ? $contact->instagram : 'Not Found' }}</a>
                         <br>
                         <label for="">Other Contact : </label> {{ $contact->other_contacts ? $contact->other_contacts : '-' }}
-                    @empty
-                        Not Found
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
         </div>

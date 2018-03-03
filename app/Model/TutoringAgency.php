@@ -12,7 +12,8 @@ class TutoringAgency extends Model
 
     protected $casts =[
         'category_id' => 'array',
-        'sub_category_id' => 'array'
+        'sub_category_id' => 'array',
+        'tags' => 'array'
     ];
 
     public function category()
@@ -38,5 +39,10 @@ class TutoringAgency extends Model
     public function study_program()
     {
         return $this->hasOne(StudyProgram::class);
+    }
+
+    public function account_login()
+    {
+        return $this->hasOne(AccountLogin::class);
     }
 }

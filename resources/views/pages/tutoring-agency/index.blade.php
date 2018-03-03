@@ -29,7 +29,6 @@
                                <th>Tutoring Agency</th>
                                <th class="text-center">Category</th>
                                <th class="text-center">Status</th>
-                               <th class="text-center">Data Completed</th>
                                <th class="text-center">Actions</th>
                            </tr>
                            </thead>
@@ -48,12 +47,6 @@
                                        @elseif($row->verified == 0)
                                            <label for="" class="label bg-orange">Unverified</label>
                                        @endif
-                                   </td>
-                                   <td class="project_progress">
-                                       <div class="progress progress_sm">
-                                           <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="47"></div>
-                                       </div>
-                                       {{--<small>47% Complete</small>--}}
                                    </td>
                                    <td class="text-center">
                                        <form action="{{ route('tutoring-agency.destroy', $row) }}" method="post">

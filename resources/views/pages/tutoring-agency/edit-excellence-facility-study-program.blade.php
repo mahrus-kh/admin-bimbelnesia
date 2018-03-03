@@ -175,9 +175,13 @@
                                 <input type="text" name="cost" class="form-control" required="required">
                             </div>
                         </div>
-                        <br>
-                        <input type="submit" class="btn btn-success" value="Add New">
-                        <input type="reset" class="btn btn-default">
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="submit" class="btn btn-success" value="Add New">
+                                <input type="reset" class="btn btn-default">
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

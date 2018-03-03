@@ -4,9 +4,9 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SubCategory extends Model
+class AccountLogin extends Model
 {
     protected $fillable = [
-        'sub_category','slug'
+        'tutoring_agency_id','email','password'
     ];
 }

@@ -24,6 +24,26 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Category<span class="required">*</span></label>
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                <div class="checkbox">
+                                    @foreach($category as $row)
+                                        <label><input type="checkbox" name="category_id[]" value="{{ $row->id }}" {{ in_array($row->id , $category_id) ? 'checked' : '' }}>{{ $row->category }} </label> |
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2 col-sm-2 col-xs-12">Sub Category<span class="required">*</span></label>
+                            <div class="col-md-10 col-sm-10 col-xs-12">
+                                <div class="checkbox">
+                                    @foreach($sub_category as $row)
+                                        <label><input type="checkbox" name="sub_category_id[]" value="{{ $row->id }}" {{ in_array($row->id , $sub_category_id) ? 'checked' : '' }}>{{ $row->sub_category }} </label> |
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-2 col-sm-2 col-xs-12">Status<span class="required">*</span></label>
                             <div class="col-md-10 col-sm-10 col-xs-12">
                                 <label class="radio-inline"><input type="radio" name="verified" value="1" required="required" {{ $tutoring_agency->verified == 1 ? 'checked' : '' }}>Verified</label>
@@ -63,7 +83,12 @@
                         <div class="form-group">
                             <label class="control-label col-md-2 col-sm-3 col-xs-12">Tags</label>
                             <div class="col-md-10 col-sm-10 col-xs-12">
-                                <textarea name="tags" id="tags-input" class="form-control tags" rows="3"> {{ $tutoring_agency->tags }}</textarea>
+                                <textarea name="tags" id="tags-input" class="form-control tags" rows="3">
+                                @forelse($tutoring_agency->tags as $tags)
+                                    {{ $tags }},
+                                @empty
+                                @endforelse
+                                </textarea>
                             </div>
                         </div>
                         <div class="ln_solid"></div>
@@ -79,6 +104,39 @@
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Account Login</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    @foreach($tutoring_agency->account_login()->get(['id','email']) as $account)
+                        <form action="{{ route('tutoring-agency.account.update', $account) }}" method="post" class="form-horizontal form-label-left input_mask">
+                            {{ csrf_field() }}
+                            {{ method_field('PATCH') }}
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                    <input type="email" name="email" value="{{ $account->email }}" class="form-control has-feedback-left" placeholder="Email" required="required">
+                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                    <input type="password" name="password" class="form-control has-feedback-left" placeholder="Password" required="required">
+                                    <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <button type="submit" class="btn btn-success">UPDATE</button>
+                                    <button class="btn btn-default" type="reset">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    @endforeach
+                </div>
+            </div>
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Contacts</h2>
