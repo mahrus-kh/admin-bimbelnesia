@@ -8,6 +8,7 @@ use App\Model\Contact;
 use App\Model\SubCategory;
 use App\Model\TutoringAgency;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class TutoringAgencyController extends Controller
 {
@@ -18,8 +19,9 @@ class TutoringAgencyController extends Controller
      */
     public function index()
     {
-        $tutoring_agency = TutoringAgency::all();
-        return view('pages.tutoring-agency.index', compact('tutoring_agency'));
+//        $tutoring_agency = TutoringAgency::all();
+//        return view('pages.tutoring-agency.index', compact('tutoring_agency'));
+        return view('pages.tutoring-agency.index');
     }
 
     /**
@@ -85,7 +87,7 @@ class TutoringAgencyController extends Controller
             $sub_category_array [] = $sub_category->sub_category;
         }
 
-        return view('pages.tutoring-agency.detail',compact('tutoring_agency','category_array','sub_category_array'));
+        return view('pages.tutoring-agency.show',compact('tutoring_agency','category_array','sub_category_array'));
     }
 
     /**
@@ -108,7 +110,7 @@ class TutoringAgencyController extends Controller
 
         $category = Category::all();
         $sub_category = SubCategory::all();
-        return view('pages.tutoring-agency.edit-tutoring-agency-contact', compact('tutoring_agency','category','sub_category','category_id','sub_category_id'));
+            return view('pages.tutoring-agency.edit', compact('tutoring_agency','category','sub_category','category_id','sub_category_id'));
     }
 
     /**
@@ -120,6 +122,15 @@ class TutoringAgencyController extends Controller
      */
     public function update(Request $request, TutoringAgency $tutoring_agency)
     {
+
+        $this->validate($request, [
+            'tutoring_agency' => 'required|max:255',
+            'address' => 'required|max:255',
+            'description' => 'required|max:500',
+            'tags' => 'max:255',
+            'verified' => 'required'
+        ]);
+
         $tutoring_agency->update([
             'category_id' => $request->category_id,
             'sub_category_id' => $request->sub_category_id,
@@ -146,8 +157,18 @@ class TutoringAgencyController extends Controller
         return redirect()->back();
     }
 
-    public function edit_more(TutoringAgency $tutoring_agency)
+    public function datatablesLoad()
     {
-        return view('pages.tutoring-agency.edit-excellence-facility-study-program', compact('tutoring_agency'));
+        $tutoring_agency = TutoringAgency::all(['id','tutoring_agency','verified']);
+
+        return DataTables::of($tutoring_agency)
+            ->addColumn('actions', function ($tutoring_agency){
+                return '
+                <a href="' . route('tutoring-agency.show', $tutoring_agency) . '" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-external-link"></i></a>
+                <a onclick="destroy('. $tutoring_agency->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

@@ -6,9 +6,8 @@
                 <div class="x_title">
                     <h2>Tutoring Agency</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a href="{{ route('tutoring-agency.edit', $tutoring_agency) }}" target="_blank" class="dropdown-toggle"><i class="fa fa-pencil"></i></a></li>
+                        <li><a href="{{ route('tutoring-agency.edit', $tutoring_agency) }}" class="dropdown-toggle"><i class="fa fa-edit"></i> Edit Data</a></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -17,7 +16,7 @@
                         <div class="col-md-3 col-sm-3 col-xs-3 profile_left">
                             <div class="profile_img">
                                 <div id="crop-avatar">
-                                    <img class="img-responsive avatar-view" src="images/picture.jpg" alt="Avatar" title="Change the avatar">
+                                    <img class="img-responsive avatar-view" src="{{ asset('images/logolbb2.png') }}" alt="Avatar" title="Change the avatar">
                                 </div>
                             </div>
                         </div>
@@ -78,43 +77,37 @@
                 <div class="x_title">
                     <h2>Account Login</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a href="{{ route('tutoring-agency.edit', $tutoring_agency) }}" target="_blank" class="dropdown-toggle"><i class="fa fa-pencil"></i></a></li>
+                        <li><a onclick="edit_account()" class="dropdown-toggle"><i class="fa fa-edit"></i> Edit Account</a></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    @foreach($tutoring_agency->account_login()->get() as $account)
-                        <b>Email : </b> {{ $account->email ? $account->email : 'Not Found' }}
-                        <br>
-                        <b>Password : </b> {{ $account->password ? '***Secret***' : 'Not Found' }}
-                    @endforeach
+                    <b>Email : </b> <text id="email_account"></text>
+                    <br>
+                    <b>Password : </b> ********
                 </div>
             </div>
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Contacts</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a href="{{ route('tutoring-agency.edit', $tutoring_agency) }}" target="_blank" class="dropdown-toggle"><i class="fa fa-pencil"></i></a></li>
+                        <li><a onclick="edit_contact()" class="dropdown-toggle"><i class="fa fa-edit"></i> Edit Contact</a></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    @forelse($tutoring_agency->contact()->get() as $contact)
-                        <a href="{{ $contact->website }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-globe"></i> {{ $contact->website ? $contact->website : 'Not Found' }}</a>
-                        <a href="{{ $contact->office_phone }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-phone"></i> {{ $contact->office_phone ? $contact->office_phone : 'Not Found' }}</a>
-                        <a href="{{ $contact->mobile_phone }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-mobile"></i> {{ $contact->mobile_phone ? $contact->mobile_phone : 'Not Found' }}</a>
-                        <a href="{{ $contact->email }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-envelope"></i> {{ $contact->email ? $contact->email : 'Not Found' }}</a>
-                        <a href="{{ $contact->facebook }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-facebook"></i> {{ $contact->facebook ? $contact->facebook : 'Not Found' }}</a>
-                        <a href="{{ $contact->instagram }}" target="_blank" class="btn btn-default btn-sm"><i class="fa fa-instagram"></i> {{ $contact->instagram ? $contact->instagram : 'Not Found' }}</a>
-                        <br>
-                        <label for="">Other Contact : </label> {{ $contact->other_contacts ? $contact->other_contacts : '-' }}
-                    @endforeach
+                    <a target="_blank"class="btn btn-default btn-sm"><i class="fa fa-globe"></i> <text id="website"></text></a>
+                    <a target="_blank"class="btn btn-default btn-sm"><i class="fa fa-phone"></i> <text id="office_phone"></text></a>
+                    <a target="_blank"class="btn btn-default btn-sm"><i class="fa fa-mobile"></i> <text id="mobile_phone"></text></a>
+                    <a target="_blank"class="btn btn-default btn-sm"><i class="fa fa-envelope"></i> <text id="email"></text></a>
+                    <a target="_blank"class="btn btn-default btn-sm"><i class="fa fa-facebook"></i> <text id="facebook"></text></a>
+                    <a target="_blank"class="btn btn-default btn-sm"><i class="fa fa-instagram"></i> <text id="instagram"></text></a>
+                    <br>
+                    <label for="">Other Contact : </label> <text id="other_contacts"></text>
                 </div>
             </div>
         </div>
@@ -125,34 +118,25 @@
                 <div class="x_title">
                     <h2>Excellences</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a href="{{ route('tutoring-agency.edit-more', $tutoring_agency) }}" target="_blank" class="dropdown-toggle"><i class="fa fa-pencil"></i></a></li>
+                        <li><a onclick="create_excellence()" class="dropdown-toggle"><i class="fa fa-plus"></i> Add New</a></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Excellence</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @php $no = 1; @endphp
-                        @forelse($tutoring_agency->excellence()->get() as $excellence)
+                    <div class="table-responsive">
+                        <table id="excellence-datatables" class="table table-striped table-hover">
+                            <thead>
                             <tr>
-                                <td> {{ $no  }}</td>
-                                <td scope="row"> {{ $excellence->excellence }}</td>
+                                <th>Excellence</th>
+                                <th>Actions</th>
                             </tr>
-                            @php $no += 1 ;@endphp
-                        @empty
-                            Not Found
-                        @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,32 +145,21 @@
                 <div class="x_title">
                     <h2>Facilities</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a href="{{ route('tutoring-agency.edit-more', $tutoring_agency) }}" target="_blank" class="dropdown-toggle"><i class="fa fa-pencil"></i></a></li>
+                        <li><a onclick="create_facility()" class="dropdown-toggle"><i class="fa fa-plus"></i> Add New</a></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <table class="table table-striped table-hover">
+                    <table id="facility-datatables" class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>#</th>
                             <th>Facility</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @php $no = 1; @endphp
-                        @forelse($tutoring_agency->facility()->get() as $facility)
-                            <tr>
-                                <td> {{ $no  }}</td>
-                                <td scope="row"> {{ $facility->facility }}</td>
-                            </tr>
-                            @php $no += 1 ;@endphp
-                        @empty
-                            Not Found
-                        @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -199,38 +172,61 @@
                 <div class="x_title">
                     <h2>Study Programs</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a href="{{ route('tutoring-agency.edit-more', $tutoring_agency) }}" target="_blank" class="dropdown-toggle"><i class="fa fa-pencil"></i></a></li>
+                        <li><a onclick="create_study_program()" class="dropdown-toggle"><i class="fa fa-plus"></i> Add New</a></li>
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <table class="table table-striped table-hover">
+                    <table id="study-program-datatables" class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>#</th>
                             <th>Study Program</th>
                             <th>Cost</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @php $no = 1; @endphp
-                        @forelse($tutoring_agency->study_program()->get() as $study_program)
-                            <tr>
-                                <td> {{ $no  }}</td>
-                                <td scope="row"> {{ $study_program->study_program }}</td>
-                                <td> {{ $study_program->cost }}</td>
-                            </tr>
-                            @php $no += 1 ;@endphp
-                        @empty
-                            Not Found
-                        @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
+    {{--Modal Account Login--}}
+    @include('pages.tutoring-agency.modal.modal-account')
+    {{--End Account Login--}}
+
+    {{--Modal Contact--}}
+    @include('pages.tutoring-agency.modal.modal-contact')
+    {{--End Modal Contact--}}
+
+    {{--Modal Excellence--}}
+        @include('pages.tutoring-agency.modal.modal-excellence')
+    {{--End Modal Excellence--}}
+
+    {{--Modal Facility--}}
+        @include('pages.tutoring-agency.modal.modal-facility')
+    {{--End Modal Facility--}}
+
+    {{--Modal Study Program--}}
+    @include('pages.tutoring-agency.modal.modal-study-program')
+    {{--End Modal Study Program--}}
+
+@endsection
+
+@section('javascript')
+
+    @include('pages.tutoring-agency.blade-js.show-account-login')
+
+    @include('pages.tutoring-agency.blade-js.show-contact')
+
+    @include('pages.tutoring-agency.blade-js.show-excellence')
+
+    @include('pages.tutoring-agency.blade-js.show-facility')
+
+    @include('pages.tutoring-agency.blade-js.show-study-program')
+
 @endsection

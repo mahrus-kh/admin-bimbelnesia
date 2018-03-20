@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Model\DataUser;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
-class DataUsersController extends Controller
+class DataUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,7 @@ class DataUsersController extends Controller
      */
     public function index()
     {
-        $data_users = DataUser::all();
-        return view('pages.data-users.index', compact('data_users'));
+        return view('pages.data-users.index');
     }
 
     /**
@@ -36,7 +36,14 @@ class DataUsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return DataUser::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'email' => $request->email,
+            'password' => bcrypt("12345678"),
+            'status' => $request->status
+        ]);
     }
 
     /**
@@ -58,7 +65,8 @@ class DataUsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data_user = DataUser::find($id);
+        return response()->json($data_user);
     }
 
     /**
@@ -68,9 +76,15 @@ class DataUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DataUser $user)
     {
-        //
+        $user->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'email' => $request->email,
+            'status' => $request->status
+        ]);
     }
 
     /**
@@ -81,6 +95,21 @@ class DataUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return DataUser::destroy($id);
+    }
+
+    public function datatablesLoad()
+    {
+        $data_user = DataUser::all(['id','name','email','status']);
+
+        return DataTables::of($data_user)
+            ->addColumn('actions', function ($data_user){
+                return '
+                <a onclick="edit_user('. $data_user->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_user('. $data_user->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

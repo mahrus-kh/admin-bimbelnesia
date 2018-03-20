@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\SubCategory;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class SubCategoryController extends Controller
 {
@@ -35,12 +36,10 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        SubCategory::create([
+        return SubCategory::create([
             'sub_category' => $request->sub_category,
             'slug' => str_slug($request->sub_category)
         ]);
-
-        return redirect()->back();
     }
 
     /**
@@ -62,7 +61,8 @@ class SubCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sub_category = SubCategory::find($id);
+        return response()->json($sub_category);
     }
 
     /**
@@ -72,9 +72,12 @@ class SubCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, SubCategory $sub_category)
     {
-        //
+        $sub_category->update([
+            'sub_category' => $request->sub_category,
+            'slug' => str_slug($request->sub_category)
+        ]);
     }
 
     /**
@@ -83,9 +86,23 @@ class SubCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SubCategory $sub_category)
+    public function destroy($id)
     {
-        $sub_category->delete();
-        return redirect()->back();
+        return SubCategory::destroy($id);
+    }
+
+    public function datatablesLoad()
+    {
+        $sub_category = SubCategory::all(['id','sub_category']);
+
+        return DataTables::of($sub_category)
+            ->addColumn('actions', function ($sub_category){
+                return '
+                <a onclick="edit_sub_category('. $sub_category->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_sub_category('. $sub_category->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

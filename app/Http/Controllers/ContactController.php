@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Model\Contact;
+use App\Model\TutoringAgency;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+    public function show(TutoringAgency $tutoring_agency)
+    {
+        foreach ($tutoring_agency->contact()->get() as $contact){
+            $contact = $contact;
+        }
+        return response()->json($contact);
+    }
+
     public function update(Request $request, Contact $contact)
     {
         $contact->update([
@@ -18,7 +27,5 @@ class ContactController extends Controller
             'facebook' => $request->facebook,
             'instagram' => $request->instagram,
         ]);
-
-        return redirect()->back();
     }
 }

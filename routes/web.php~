@@ -1,0 +1,66 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('login', function(){
+    return view('pages.login');
+});
+
+Route::get('institution/tutoring-agency/datatables', 'TutoringAgencyController@datatables_load')->name('tutoring-agency.datatables');
+Route::resource('institution/tutoring-agency', 'TutoringAgencyController');
+
+Route::get('institution/tutoring-agency/account/{tutoring_agency}', 'AccountLoginController@show');
+Route::patch('institution/tutoring-agency/account/{account}', 'AccountLoginController@update');
+
+Route::get('institution/tutoring-agency/contact/{tutoring_agency}', 'ContactController@show');
+Route::patch('institution/tutoring-agency/contact/{contact}', 'ContactController@update');
+
+Route::get('institution/tutoring-agency/{tutoring_agency}/excellence/datatables', 'ExcellenceController@datatables_load')->name('excellence.datatables');
+Route::post('institution/tutoring-agency/excellence/{tutoring_agency}', 'ExcellenceController@store')->name('excellence.store');
+Route::get('institution/tutoring-agency/excellence/{excellence}/edit', 'ExcellenceController@edit')->name('excellence.edit');
+Route::patch('institution/tutoring-agency/excellence/{excellence}', 'ExcellenceController@update')->name('excellence.update');
+Route::delete('institution/tutoring-agency/excellence/{excellence}', 'ExcellenceController@destroy')->name('excellence.destroy');
+
+Route::get('institution/tutoring-agency/{tutoring_agency}/facility/datatables', 'FacilityController@datatables_load')->name('facility.datatables');
+Route::post('institution/tutoring-agency/facility/{tutoring_agency}', 'FacilityController@store')->name('facility.store');
+Route::get('institution/tutoring-agency/facility/{facility}/edit', 'FacilityController@edit')->name('facility.edit');
+Route::patch('institution/tutoring-agency/facility/{facility}', 'FacilityController@update')->name('facility.update');
+Route::delete('institution/tutoring-agency/facility/{facility}', 'FacilityController@destroy')->name('facility.destroy');
+
+Route::get('institution/tutoring-agency/{tutoring_agency}/study-program/datatables', 'StudyProgramController@datatables_load')->name('study-program.datatables');
+Route::post('institution/tutoring-agency/study-program/{tutoring_agency}', 'StudyProgramController@store')->name('study-program.store');
+Route::get('institution/tutoring-agency/study-program/{study_program}/edit', 'StudyProgramController@edit')->name('study-program.edit');
+Route::patch('institution/tutoring-agency/study-program/{study_program}', 'StudyProgramController@update')->name('study-program.update');
+Route::delete('institution/tutoring-agency/study-program/{study_program}', 'StudyProgramController@destroy')->name('study-program.destroy');
+
+
+Route::resource('users/data-users', 'DataUsersController');
+
+Route::get('setup/category-sub', 'CategoryController@index')->name('category.sub.index');
+
+Route::get('setup/category/datatables', 'CategoryController@datatables_load')->name('category.datatables');
+Route::resource('setup/category', 'CategoryController');
+
+Route::get('setup/sub-category/datatables', 'SubCategoryController@datatables_load')->name('sub-category.datatables');
+Route::resource('setup/sub-category', 'SubCategoryController');
+
+
+Route::get('home/login', 'AuthController@postLogin');
+Route::get('home/logout', 'AuthController@postLogout');
+Route::get('home/bikin', 'AuthController@postLogout');
+
+
+

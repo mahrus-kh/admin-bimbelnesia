@@ -28,7 +28,7 @@ class TutoringAgency extends Model
 
     public function excellence()
     {
-        return $this->hasOne(Excellence::class);
+        return $this->hasMany(Excellence::class);
     }
 
     public function facility()
@@ -38,7 +38,7 @@ class TutoringAgency extends Model
 
     public function study_program()
     {
-        return $this->hasOne(StudyProgram::class);
+        return $this->hasMany(StudyProgram::class);
     }
 
     public function account_login()

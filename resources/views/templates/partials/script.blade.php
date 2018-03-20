@@ -4,6 +4,8 @@
 <script src="{{ asset('assets/vendors/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
 <!-- Bootstrap -->
 <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<!-- Bootstrap Validator -->
+<script src="{{ asset('assets/vendors/bootstrap-validator/validator.min.js') }}"></script>
 <!-- FastClick -->
 <script src="{{ asset('assets/vendors/fastclick/lib/fastclick.js') }}"></script>
 <!-- NProgress -->

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\StudyProgram;
 use App\Model\TutoringAgency;
+use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 
 class StudyProgramController extends Controller
@@ -34,15 +35,13 @@ class StudyProgramController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, TutoringAgency $tutoring_agency)
+    public function store(Request $request, $tutoring_agency)
     {
-        StudyProgram::create([
-            'tutoring_agency_id' => $tutoring_agency->id,
+        return StudyProgram::create([
+            'tutoring_agency_id' => $tutoring_agency,
             'study_program' => $request->study_program,
             'cost' => $request->cost
         ]);
-
-        return redirect()->back();
     }
 
     /**
@@ -62,9 +61,10 @@ class StudyProgramController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(TutoringAgency $tutoring_agency, StudyProgram $study_program)
+    public function edit($id)
     {
-        return view('pages.tutoring-agency.edit.edit-study-program', compact('tutoring_agency','study_program'));
+        $study_program = StudyProgram::find($id);
+        return response()->json($study_program);
     }
 
     /**
@@ -74,14 +74,12 @@ class StudyProgramController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TutoringAgency $tutoring_agency, StudyProgram $study_program)
+    public function update(Request $request, StudyProgram $study_program)
     {
         $study_program->update([
             'study_program' => $request->study_program,
             'cost' => $request->cost
         ]);
-
-        return redirect()->route('tutoring-agency.edit-more', $tutoring_agency);
     }
 
     /**
@@ -90,9 +88,24 @@ class StudyProgramController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($tutoring_agency, StudyProgram $study_program)
+    public function destroy($id)
     {
-        $study_program->delete();
-        return redirect()->back();
+        return StudyProgram::destroy($id);
+    }
+
+    public function datatablesLoad(TutoringAgency $tutoring_agency)
+    {
+        $study_program = $tutoring_agency->study_program()->get(['id','study_program','cost']);
+
+        return DataTables::of($study_program)
+            ->addcolumn('actions', function ($study_program){
+                return '
+                <a onclick="edit_study_program('. $study_program->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_study_program('. $study_program->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+
     }
 }

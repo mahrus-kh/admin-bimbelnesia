@@ -13,9 +13,6 @@
     <link href="{{ asset('assets/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-    <!-- PNotify -->
-    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <!-- NProgress -->
     <link href="{{ asset('assets/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
     <!-- Animate.css -->
@@ -32,10 +29,12 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-                <form>
+                <form action="{{ route('auth.postLogin') }}" method="POST">
+                    {{ csrf_field() }}
+                    {{ method_field('POST') }}
                     <h1>Login Administrator</h1>
                     <div>
-                        <input type="email" class="form-control" name="email" placeholder="Email" required>
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" required>
                     </div>
                     <div>
                         <input type="password" class="form-control" name="password" placeholder="Password" required>
@@ -52,7 +51,6 @@
                                 <br>
                                 BimbelNesia as "Bimbel Indonesia". Malang City, Indonesia
                             </p>
-                            <button type="button" class="btn btn-primary" onclick="notivications()">COBA PNOTIFY</button>
                         </div>
                     </div>
                 </form>
@@ -77,7 +75,6 @@
                                 <br>
                                 BimbelNesia as "Bimbel Indonesia". Malang City, Indonesia
                             </p>
-                            <button type="button" class="btn btn-primary" onclick="notivications()">COBA PNOTIFY</button>
                         </div>
                     </div>
                 </form>
@@ -86,24 +83,7 @@
     </div>
 </div>
 
-
 <!-- jQuery -->
 <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
-<!-- PNotify -->
-<script src="{{ asset('assets/vendors/pnotify/dist/pnotify.js') }}"></script>
-<script src="{{ asset('assets/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
 </body>
 </html>
-<script type="text/javascript">
-    $(document).ready(function () {
-        
-    });
-    function notivications() {
-        new PNotify({
-            title: 'Email or password wrong !',
-            text: 'Email or password do not match our records !',
-            type: 'error',
-            styling: 'bootstrap3'
-        });
-    }
-</script>

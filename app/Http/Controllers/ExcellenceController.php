@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Excellence;
 use App\Model\TutoringAgency;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ExcellenceController extends Controller
 {
@@ -34,14 +35,12 @@ class ExcellenceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, TutoringAgency $tutoring_agency)
+    public function store(Request $request, $tutoring_agency)
     {
-        Excellence::create([
-            'tutoring_agency_id' => $tutoring_agency->id,
+        return Excellence::create([
+            'tutoring_agency_id' => $tutoring_agency,
             'excellence' => $request->excellence
         ]);
-
-        return redirect()->back();
     }
 
     /**
@@ -61,9 +60,11 @@ class ExcellenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(TutoringAgency $tutoring_agency, Excellence $excellence)
+    public function edit($id)
     {
-        return view('pages.tutoring-agency.edit.edit-excellence', compact('tutoring_agency','excellence'));
+        $excellence = Excellence::find($id);
+        return response()->json($excellence);
+
     }
 
     /**
@@ -73,13 +74,11 @@ class ExcellenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TutoringAgency $tutoring_agency, Excellence $excellence)
+    public function update(Request $request, Excellence $excellence)
     {
         $excellence->update([
             'excellence' => $request->excellence
         ]);
-
-        return redirect()->route('tutoring-agency.edit-more', $tutoring_agency);
     }
 
     /**
@@ -88,9 +87,23 @@ class ExcellenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($tutoring_agency, Excellence $excellence)
+    public function destroy($id)
     {
-        $excellence->delete();
-        return redirect()->back();
+        return Excellence::destroy($id);
+    }
+
+    public function datatablesLoad(TutoringAgency $tutoring_agency)
+    {
+        $excellence = $tutoring_agency->excellence()->get(['id','excellence']);
+
+        return DataTables::of($excellence)
+            ->addcolumn('actions', function ($excellence){
+                return '
+                <a onclick="edit_excellence('. $excellence->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_excellence('. $excellence->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

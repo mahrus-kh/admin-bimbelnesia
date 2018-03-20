@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Category;
 use App\Model\SubCategory;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class CategoryController extends Controller
 {
@@ -38,12 +39,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create([
+        return Category::create([
             'category' => $request->category,
             'slug' => str_slug($request->category)
         ]);
-
-        return redirect()->back();
     }
 
     /**
@@ -65,7 +64,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        return response()->json($category);
     }
 
     /**
@@ -75,9 +75,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $category->update([
+            'category' => $request->category,
+            'slug' => str_slug($request->category)
+        ]);
     }
 
     /**
@@ -86,9 +89,23 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        $category->delete();
-        return redirect()->back();
+        return Category::destroy($id);
+    }
+
+    public function datatablesLoad()
+    {
+        $category = Category::all(['id','category']);
+
+        return DataTables::of($category)
+            ->addColumn('actions', function ($category){
+                return '
+                <a onclick="edit_category('. $category->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_category('. $category->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

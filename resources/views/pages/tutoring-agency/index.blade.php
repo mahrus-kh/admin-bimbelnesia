@@ -27,37 +27,11 @@
                            <thead>
                            <tr>
                                <th>Tutoring Agency</th>
-                               <th class="text-center">Category</th>
                                <th class="text-center">Status</th>
                                <th class="text-center">Actions</th>
                            </tr>
                            </thead>
                            <tbody>
-                           @foreach($tutoring_agency as $row)
-                               <tr>
-                                   <td>{{ $row->tutoring_agency }}</td>
-                                   <td class="text-center">
-                                       @foreach($row->category_id as $category_id)
-                                           {{ $category_id }}
-                                       @endforeach
-                                   </td>
-                                   <td class="text-center">
-                                       @if($row->verified == 1)
-                                           <label for="" class="label bg-green">Verified</label>
-                                       @elseif($row->verified == 0)
-                                           <label for="" class="label bg-orange">Unverified</label>
-                                       @endif
-                                   </td>
-                                   <td class="text-center">
-                                       <form action="{{ route('tutoring-agency.destroy', $row) }}" method="post">
-                                           <a href="{{ route('tutoring-agency.show', $row) }}" class="btn btn-primary btn-xs"><i class="fa fa-external-link"></i></a>
-                                           {{ csrf_field() }}
-                                           {{ method_field('DELETE') }}
-                                           <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
-                                       </form>
-                                   </td>
-                               </tr>
-                           @endforeach
                            </tbody>
                        </table>
                    </div>
@@ -70,8 +44,30 @@
 @section('javascript')
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#tutoring-agency-datatables").DataTable()
+                $("#tutoring-agency-datatables").DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{route('tutoring-agency.datatables')}}",
+                    columns: [
+                        {data: 'tutoring_agency', name: 'tutoring_agency'},
+                        {data: 'verified', class: 'text-center',
+                            render: function (data, type, row) {
+                                if (row.verified == 0){
+                                    return '<label for="" class="label bg-orange">Unverified</label>'
+                                } else if (row.verified == 1){
+                                    return '<label for="" class="label bg-green">Verified</label>'
+                                }
+                            }
+                        },
+                        {data: 'actions', name: 'actions', orderable: false, searchable: false, class: 'text-center'}
+
+                    ]
+                });
             });
+            
+            function destroy(id) {
+                alert(id)
+            }
         </script>
 @endsection
 

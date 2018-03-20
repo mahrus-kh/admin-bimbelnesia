@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Model\Admin;
+use App\User;
+
+class AuthController extends Controller
+{
+	public function postLogin()
+	{
+		$email = "khomaini.kh@gmail.com";
+		$password = "12345678";
+		$login = auth()->attempt(['email' => $email, 'password' => $password]);
+		//dd($login);		
+		dd(auth()->user());
+	}
+
+	public function postRegister()
+	{
+		$bikin = User::create([
+			'name' => 'Khomaini User',
+			'email' => 'khomaini.khuser@gmail.com',
+			'password' => bcrypt('12345678')
+		]);
+
+		dd($bikin);
+	}     
+}
