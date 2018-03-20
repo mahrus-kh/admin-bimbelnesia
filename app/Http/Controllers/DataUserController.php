@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\DataUsers;
+use App\Model\DataUser;
 use Illuminate\Http\Request;
 
 class DataUsersController extends Controller
@@ -14,7 +14,7 @@ class DataUsersController extends Controller
      */
     public function index()
     {
-        $data_users = DataUsers::all();
+        $data_users = DataUser::all();
         return view('pages.data-users.index', compact('data_users'));
     }
 
