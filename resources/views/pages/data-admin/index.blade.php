@@ -43,14 +43,12 @@
                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                <input type="text" name="name_account" class="form-control has-feedback-left" placeholder="Name" maxlength="255" required>
                                <span class="fa fa-lock form-control-feedback left help-block with-errors" aria-hidden="true"></span>
-                               {{--<span class="help-block with-errors"></span>--}}
                            </div>
                        </div>
                        <div class="form-group">
                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                <input type="email" name="email_account" class="form-control has-feedback-left" placeholder="Email" maxlength="255" required>
                                <span class="fa fa-envelope form-control-feedback left help-block with-errors" aria-hidden="true"></span>
-                               {{--<span class="help-block with-errors"></span>--}}
                            </div>
                        </div>
                        <div class="form-group">
@@ -63,7 +61,7 @@
                        <div class="form-group">
                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                <input type="submit" class="btn btn-info" value="UPDATE">
-                               <input type="reset" class="btn btn-default">
+                               <button type="button" onclick="accountLoad()" class="btn btn-default">Reset</button>
                            </div>
                        </div>
                    </form>

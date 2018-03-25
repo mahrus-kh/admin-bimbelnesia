@@ -32,7 +32,7 @@ class StudyProgramController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $tutoring_agency)
@@ -47,7 +47,7 @@ class StudyProgramController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -58,7 +58,7 @@ class StudyProgramController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -70,8 +70,8 @@ class StudyProgramController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, StudyProgram $study_program)
@@ -85,7 +85,7 @@ class StudyProgramController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -95,13 +95,13 @@ class StudyProgramController extends Controller
 
     public function datatablesLoad(TutoringAgency $tutoring_agency)
     {
-        $study_program = $tutoring_agency->study_program()->get(['id','study_program','cost']);
+        $study_program = $tutoring_agency->study_program()->get(['id', 'study_program', 'cost']);
 
         return DataTables::of($study_program)
-            ->addcolumn('actions', function ($study_program){
+            ->addcolumn('actions', function ($study_program) {
                 return '
-                <a onclick="edit_study_program('. $study_program->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
-                <a onclick="destroy_study_program('. $study_program->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                <a onclick="edit_study_program(' . $study_program->id . ')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_study_program(' . $study_program->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                 ';
             })
             ->rawColumns(['actions'])

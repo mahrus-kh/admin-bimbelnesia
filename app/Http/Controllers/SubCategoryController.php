@@ -31,7 +31,7 @@ class SubCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -45,7 +45,7 @@ class SubCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -56,7 +56,7 @@ class SubCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -68,8 +68,8 @@ class SubCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, SubCategory $sub_category)
@@ -83,7 +83,7 @@ class SubCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -93,13 +93,13 @@ class SubCategoryController extends Controller
 
     public function datatablesLoad()
     {
-        $sub_category = SubCategory::all(['id','sub_category']);
+        $sub_category = SubCategory::all(['id', 'sub_category']);
 
         return DataTables::of($sub_category)
-            ->addColumn('actions', function ($sub_category){
+            ->addColumn('actions', function ($sub_category) {
                 return '
-                <a onclick="edit_sub_category('. $sub_category->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
-                <a onclick="destroy_sub_category('. $sub_category->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                <a onclick="edit_sub_category(' . $sub_category->id . ')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_sub_category(' . $sub_category->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                 ';
             })
             ->rawColumns(['actions'])

@@ -6,22 +6,11 @@
                <div class="x_title">
                    <h2>Data Tutoring Agencies</h2>
                    <ul class="nav navbar-right panel_toolbox">
-                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                       <li class="dropdown">
-                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                           <ul class="dropdown-menu" role="menu">
-                               <li><a href="#">Settings 1</a></li>
-                               <li><a href="#">Settings 2</a></li>
-                           </ul>
-                       </li>
-                       <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                       <a href="{{ route('tutoring-agency.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add New</a>
                    </ul>
                    <div class="clearfix"></div>
                </div>
                <div class="x_content">
-                   <p class="text-muted font-13 m-b-30">
-                       <a href="{{ route('tutoring-agency.create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add New</a>
-                   </p>
                    <div class="table-responsive">
                        <table id="tutoring-agency-datatables" class="table table-striped table-hover">
                            <thead>
@@ -43,8 +32,9 @@
 
 @section('javascript')
         <script type="text/javascript">
+            var tutoring_agency_dt ;
             $(document).ready(function () {
-                $("#tutoring-agency-datatables").DataTable({
+                tutoring_agency_dt = $("#tutoring-agency-datatables").DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: "{{route('tutoring-agency.datatables')}}",
@@ -66,7 +56,19 @@
             });
             
             function destroy(id) {
-                alert(id)
+                if (confirm("Delete Permanently ?")){
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('institution/tutoring-agency') . '/' }}" + id,
+                        data: {_method: "DELETE", _token: "{{ csrf_token() }}"},
+                        success: function (data) {
+                            tutoring_agency_dt.ajax.reload()
+                        },
+                        error: function () {
+                            alert("Something Wrong !")
+                        }
+                    })
+                }
             }
         </script>
 @endsection

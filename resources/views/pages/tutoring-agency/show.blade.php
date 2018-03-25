@@ -16,7 +16,7 @@
                         <div class="col-md-3 col-sm-3 col-xs-3 profile_left">
                             <div class="profile_img">
                                 <div id="crop-avatar">
-                                    <img class="img-responsive avatar-view" src="{{ asset('images/logolbb2.png') }}" alt="Avatar" title="Change the avatar">
+                                    <img class="img-responsive avatar-view" src="{{ asset($tutoring_agency->logo_image) }}" alt="Avatar" title="Change the avatar">
                                 </div>
                             </div>
                         </div>

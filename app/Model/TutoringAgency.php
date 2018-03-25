@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class TutoringAgency extends Model
 {
     protected $fillable = [
-        'category_id','sub_category_id','slug','tutoring_agency','address','description','tags','verified','rating','total_views'
+        'category_id', 'sub_category_id', 'slug', 'tutoring_agency', 'logo_image', 'address', 'description', 'tags', 'verified', 'rating', 'total_views'
     ];
 
-    protected $casts =[
+    protected $casts = [
         'category_id' => 'array',
         'sub_category_id' => 'array',
         'tags' => 'array'
@@ -41,7 +41,7 @@ class TutoringAgency extends Model
         return $this->hasMany(StudyProgram::class);
     }
 
-    public function account_login()
+    public function accountLogin()
     {
         return $this->hasOne(AccountLogin::class);
     }

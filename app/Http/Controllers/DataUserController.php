@@ -31,7 +31,7 @@ class DataUserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,7 +49,7 @@ class DataUserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -60,7 +60,7 @@ class DataUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -72,8 +72,8 @@ class DataUserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, DataUser $user)
@@ -90,7 +90,7 @@ class DataUserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -100,13 +100,13 @@ class DataUserController extends Controller
 
     public function datatablesLoad()
     {
-        $data_user = DataUser::all(['id','name','email','status']);
+        $data_user = DataUser::all(['id', 'name', 'email', 'status']);
 
         return DataTables::of($data_user)
-            ->addColumn('actions', function ($data_user){
+            ->addColumn('actions', function ($data_user) {
                 return '
-                <a onclick="edit_user('. $data_user->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
-                <a onclick="destroy_user('. $data_user->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                <a onclick="edit_user(' . $data_user->id . ')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_user(' . $data_user->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                 ';
             })
             ->rawColumns(['actions'])

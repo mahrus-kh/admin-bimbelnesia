@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         $category = Category::all();
         $sub_category = SubCategory::all();
-        return view('pages.setup-category-sub.index', compact('category','sub_category'));
+        return view('pages.setup-category-sub.index', compact('category', 'sub_category'));
     }
 
     /**
@@ -34,7 +34,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,7 +48,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -59,7 +59,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -71,8 +71,8 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Category $category)
@@ -86,7 +86,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -96,13 +96,13 @@ class CategoryController extends Controller
 
     public function datatablesLoad()
     {
-        $category = Category::all(['id','category']);
+        $category = Category::all(['id', 'category']);
 
         return DataTables::of($category)
-            ->addColumn('actions', function ($category){
+            ->addColumn('actions', function ($category) {
                 return '
-                <a onclick="edit_category('. $category->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
-                <a onclick="destroy_category('. $category->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                <a onclick="edit_category(' . $category->id . ')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_category(' . $category->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                 ';
             })
             ->rawColumns(['actions'])

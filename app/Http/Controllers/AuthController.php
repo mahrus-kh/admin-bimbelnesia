@@ -13,27 +13,27 @@ class AuthController extends Controller
         return view('pages.login-register.login');
     }
 
-	public function postLogin(Request $request)
-	{
-		$this->validate($request,[
-		    'email' => 'required|email|max:255',
+    public function postLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email|max:255',
             'password' => 'required|max:255',
         ]);
 
-		if (auth()->attempt(['email' => $request->email, 'password' => $request->password])){
-		    return redirect()->route('tutoring-agency.index');
+        if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('tutoring-agency.index');
         }
 
         return redirect()->back();
-	}
+    }
 
     public function getRegister()
     {
-        
-	}
 
-	public function postRegister()
-	{
+    }
+
+    public function postRegister()
+    {
 //		$bikin = User::create([
 //			'name' => 'Khomaini User',
 //			'email' => 'khomaini.khuser@gmail.com',
@@ -43,11 +43,11 @@ class AuthController extends Controller
 //		dd($bikin);
 
         dd(auth()->user());
-	}
+    }
 
     public function getLogout()
     {
-       auth()->logout();
-       return redirect()->route('login');
-	}
+        auth()->logout();
+        return redirect()->route('login');
+    }
 }

@@ -32,7 +32,7 @@ class FacilityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $tutoring_agency)
@@ -48,7 +48,7 @@ class FacilityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -59,7 +59,7 @@ class FacilityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -71,11 +71,11 @@ class FacilityController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  Facility $facility)
+    public function update(Request $request, Facility $facility)
     {
         $facility->update([
             'facility' => $request->facility
@@ -85,7 +85,7 @@ class FacilityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -95,13 +95,13 @@ class FacilityController extends Controller
 
     public function datatablesLoad(TutoringAgency $tutoring_agency)
     {
-        $facility = $tutoring_agency->facility()->get(['id','facility']);
+        $facility = $tutoring_agency->facility()->get(['id', 'facility']);
 
         return DataTables::of($facility)
-            ->addcolumn('actions', function ($facility){
+            ->addcolumn('actions', function ($facility) {
                 return '
-                <a onclick="edit_facility('. $facility->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
-                <a onclick="destroy_facility('. $facility->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                <a onclick="edit_facility(' . $facility->id . ')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_facility(' . $facility->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                 ';
             })
             ->rawColumns(['actions'])

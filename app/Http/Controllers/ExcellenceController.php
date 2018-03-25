@@ -32,7 +32,7 @@ class ExcellenceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $tutoring_agency)
@@ -46,7 +46,7 @@ class ExcellenceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -57,7 +57,7 @@ class ExcellenceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -70,8 +70,8 @@ class ExcellenceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Excellence $excellence)
@@ -84,7 +84,7 @@ class ExcellenceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -94,13 +94,13 @@ class ExcellenceController extends Controller
 
     public function datatablesLoad(TutoringAgency $tutoring_agency)
     {
-        $excellence = $tutoring_agency->excellence()->get(['id','excellence']);
+        $excellence = $tutoring_agency->excellence()->get(['id', 'excellence']);
 
         return DataTables::of($excellence)
-            ->addcolumn('actions', function ($excellence){
+            ->addcolumn('actions', function ($excellence) {
                 return '
-                <a onclick="edit_excellence('. $excellence->id .')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
-                <a onclick="destroy_excellence('. $excellence->id .')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                <a onclick="edit_excellence(' . $excellence->id . ')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_excellence(' . $excellence->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                 ';
             })
             ->rawColumns(['actions'])

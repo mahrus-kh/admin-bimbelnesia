@@ -10,10 +10,11 @@ class AccountLoginController extends Controller
 {
     public function show(TutoringAgency $tutoring_agency)
     {
-        foreach ($tutoring_agency->account_login()->get() as $account){
-            $account = $account;
-        }
-        return response()->json($account);
+        $account_login = [
+            'id' => $tutoring_agency->accountLogin->id,
+            'email' => $tutoring_agency->accountLogin->email
+        ];
+        return response()->json($account_login);
     }
 
     public function update(Request $request, AccountLogin $account)
@@ -22,7 +23,5 @@ class AccountLoginController extends Controller
             'email' => $request->email_account,
             'password' => bcrypt($request->password)
         ]);
-
-        return redirect()->back();
     }
 }

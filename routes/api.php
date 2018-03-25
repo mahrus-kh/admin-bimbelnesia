@@ -13,6 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+Route::group(['prefix' => 'v1/lbb'], function () {
+
+    Route::resource('lembaga', 'Api\Lbb\TutoringAgencyController');
+    Route::get('login', 'Api\Lbb\AuthController@login');
+
+});
+
+Route::group(['prefix' => 'v1/user'], function () {
+
 });

@@ -34,7 +34,8 @@
                     {{ method_field('POST') }}
                     <h1>Login Administrator</h1>
                     <div>
-                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" required>
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}"
+                               placeholder="Email" required>
                     </div>
                     <div>
                         <input type="password" class="form-control" name="password" placeholder="Password" required>
