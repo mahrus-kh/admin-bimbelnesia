@@ -99,7 +99,7 @@ class ExcellenceController extends Controller
         return DataTables::of($excellence)
             ->addcolumn('actions', function ($excellence) {
                 return '
-                <a onclick="edit_excellence(' . $excellence->id . ')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="edit_excellence(' . $excellence->id . ')" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
                 <a onclick="destroy_excellence(' . $excellence->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                 ';
             })

@@ -22,7 +22,7 @@ class TutoringAgencyController extends Controller
         $token = "rahasia";
 
         $response = [
-            'msg'   => 'Success',
+            'msg' => 'All Data Lembaga',
             'data' => $tutoring_agency
         ];
         return response()->json($response, 200);
@@ -41,25 +41,25 @@ class TutoringAgencyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $tutoring_agency = TutoringAgency::find($id);
 
-        foreach ($tutoring_agency->category_id as $categories){
+        foreach ($tutoring_agency->category_id as $categories) {
             $category = Category::find($categories, ['category']);
             $category_array [] = $category->category;
         }
@@ -73,8 +73,10 @@ class TutoringAgencyController extends Controller
         $tutoring_agency->sub_category_id = $sub_category_array;
 
         $response = [
-            'msg'   => 'Data Tutoring Agency',
-            'data'  => $tutoring_agency
+            'msg' => 'Data Tutoring Agency',
+            'data' => [
+                'profil' => $tutoring_agency,
+            ]
         ];
         return response()->json($response, 200);
     }
@@ -82,16 +84,22 @@ class TutoringAgencyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $tutoring_agency = TutoringAgency::find($id);
+        $category = Category::all(['id','category']);
+        $sub_category = SubCategory::all(['id','sub_category']);
 
         $response = [
-            'msg'   => 'Edit Data Tutoring Agency',
-            'data'  => $tutoring_agency
+            'msg' => 'Edit Data Tutoring Agency',
+            'data' => [
+                'profil' => $tutoring_agency,
+                'category'  => $category,
+                'sub_category' => $sub_category
+            ]
         ];
         return response()->json($response, 200);
     }
@@ -99,37 +107,39 @@ class TutoringAgencyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
+//        $this->validate($request, [
+//            'category_id' => 'required',
+//            'sub_category_id' => 'required',
+//            'tutoring_agency' => 'required|max:255',
+//            'address' => 'required|max:255',
+//            'description' => 'required|max:500',
+//            'tags' => 'max:255',
+//        ]);
+
         $tutoring_agency = TutoringAgency::find($id);
         $tutoring_agency->update([
 //            'category_id' => $request->category_id,
 //            'sub_category_id' => $request->sub_category_id,
             'slug' => str_slug($request->tutoring_agency),
             'tutoring_agency' => $request->tutoring_agency,
-//            'logo_image' => $logo_image,
-//            'address' => $request->address,
-//            'description' => $request->description,
-//            'tags' => explode(",", $request->tags),
-//            'verified' => $request->verified,
+            'address' => $request->address,
+            'description' => $request->description,
+            'tags' => explode(",", $request->tags),
         ]);
 
-        $response = [
-            'msg'   =>  'Data tutoring_agency Updated',
-            'data'  =>  $tutoring_agency
-        ];
-
-        return response()->json($response, 200);
+        return response()->json(['msg' => 'Berhasil Update !'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

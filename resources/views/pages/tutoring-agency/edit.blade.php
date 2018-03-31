@@ -7,7 +7,6 @@
                     <h2>Tutoring Agency</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a href="{{ route('tutoring-agency.show', $tutoring_agency) }}" class="dropdown-toggle"><i class="fa fa-backward"></i> Back</a></li>
-                        </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>

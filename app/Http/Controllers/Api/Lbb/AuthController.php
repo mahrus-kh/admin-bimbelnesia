@@ -4,41 +4,47 @@ namespace App\Http\Controllers\Api\Lbb;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Tymon\JWTAuth\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    public function register(){
+    public function register()
+    {
 
     }
 
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = [
-            'email' => 'mahrus.khomaini@gmail.com',
-            'password' => '21200786'
-        ];
+        try{
+            if (!$token = JWTAuth::attempt(['email' => $request->email, 'password' => $request->password])){
+                return response()->json([
+                    'msg' => 'Email or password are incorrect',
+                ],  404);
+            }
+        } catch (JWTException $e){
+            return response()->json([
+                'msg' => 'Failed to create token',
+            ], 404);
+        }
 
-        $token = null;
-//            try{
-//                if (!$token = JWTAuth::attempt($credentials)){
-//                    return response()->json([
-//                        'msg' => 'Email or password are incorrect'
-//                    ], 404);
-//                }
-//            } catch (JWTException $e){
-//                return response()->json([
-//                    'msg' => 'failed_to_crate_token'
-//                ], 404);
-//            }
-        $token = JWTAuth::attempt($credentials);
         $response = [
-            'msg' => 'User Login',
-            'user' => $credentials,
+            'msg' => 'Login Success',
             'token' => $token
         ];
 
-        return response()->json($response);
+        return response()->json($response, 200);
+    }
+
+    public function belajar()
+    {
+        $credentials = [
+            'email' => "khomaini.kh@gmail.com",
+            'password' => "foo1234"
+        ];
+
+        $halo = JWTAuth::parseToken();
+
+        return response()->json($halo);
     }
 }

@@ -124,7 +124,7 @@ class TutoringAgencyController extends Controller
 
         $logo_image = $tutoring_agency->logo_image;
         if ($request->hasFile('logo_image')) {
-            if ($tutoring_agency->logo_image) {
+            if ($tutoring_agency->logo_image != "upload/logo/default-logo.png") {
                 unlink(public_path($tutoring_agency->logo_image));
             }
             $logo_image = 'upload/logo/' . str_slug($request->tutoring_agency) . '.' . $request->logo_image->getClientOriginalExtension();
@@ -154,7 +154,7 @@ class TutoringAgencyController extends Controller
      */
     public function destroy(TutoringAgency $tutoring_agency)
     {
-        if ($tutoring_agency->logo_image != 'upload/logo/default-logo.png') {
+        if ($tutoring_agency->logo_image != "upload/logo/default-logo.png") {
             unlink(public_path($tutoring_agency->logo_image));
         }
         $tutoring_agency->delete();

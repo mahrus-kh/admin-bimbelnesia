@@ -165,12 +165,12 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 	    Collective\Html\HtmlServiceProvider::class,
 	    Yajra\DataTables\DataTablesServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
         /*
          * Package Service Providers...
          */
         Barryvdh\Cors\ServiceProvider::class,
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         /*
          * Application Service Providers...
          */

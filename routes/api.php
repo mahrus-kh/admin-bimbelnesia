@@ -20,10 +20,19 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'v1/lbb'], function () {
 
     Route::resource('lembaga', 'Api\Lbb\TutoringAgencyController');
-    Route::get('login', 'Api\Lbb\AuthController@login');
+    Route::resource('contact', 'Api\Lbb\ContactController', ['only' => ['show','update']]);
+
+    Route::get('pelayanan-lembaga/{tutoring_agency}', 'Api\Lbb\PelayananLembagaController@show');
+
+    Route::resource('excellence', 'Api\Lbb\ExcellenceController', ['only' => ['store','edit','update','destroy']]);
+    Route::resource('facility', 'Api\Lbb\FacilityController', ['only' => ['store','edit','update','destroy']]);
+    Route::resource('study-program', 'Api\Lbb\StudyProgramController', ['only' => ['store','edit','update','destroy']]);
+
+    Route::post('login', 'Api\Lbb\AuthController@login');
+    Route::get('belajar', 'Api\Lbb\AuthController@belajar')->name('register');
 
 });
 
 Route::group(['prefix' => 'v1/user'], function () {
-
+    Route::get('user', 'Api\User\ExampleController@index');
 });

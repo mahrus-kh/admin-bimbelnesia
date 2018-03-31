@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                            <input type="text" name="email" class="form-control has-feedback-left" placeholder="Email" maxlength="255">
+                            <input type="email" name="email" class="form-control has-feedback-left" placeholder="Email" maxlength="255">
                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                         </div>
                     </div>

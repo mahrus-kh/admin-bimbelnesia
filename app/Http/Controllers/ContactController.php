@@ -11,7 +11,9 @@ class ContactController extends Controller
     public function show(TutoringAgency $tutoring_agency)
     {
         foreach ($tutoring_agency->contact()->get() as $contact) {
+            $contact = $contact;
         }
+
         return response()->json($contact);
     }
 
