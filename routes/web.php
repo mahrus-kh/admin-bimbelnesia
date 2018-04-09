@@ -35,10 +35,10 @@ Route::middleware('auth')->group(function () {
         Route::patch('tutoring-agency/contact/{contact}', 'ContactController@update');
 
         Route::get('tutoring-agency/{tutoring_agency}/excellence/datatables', 'ExcellenceController@datatablesLoad')->name('excellence.datatables');
-        Route::post('tutoring-agency/excellence/{tutoring_agency}', 'ExcellenceController@store')->name('excellence.store');
-        Route::get('tutoring-agency/excellence/{excellence}/edit', 'ExcellenceController@edit')->name('excellence.edit');
-        Route::patch('tutoring-agency/excellence/{excellence}', 'ExcellenceController@update')->name('excellence.update');
-        Route::delete('tutoring-agency/excellence/{excellence}', 'ExcellenceController@destroy')->name('excellence.destroy');
+        Route::post('tutoring-agency/excellence/{tutoring_agency}', 'ExcellenceController@store');
+        Route::get('tutoring-agency/excellence/{excellence}/edit', 'ExcellenceController@edit');
+        Route::patch('tutoring-agency/excellence/{excellence}', 'ExcellenceController@update');
+        Route::delete('tutoring-agency/excellence/{excellence}', 'ExcellenceController@destroy');
 
         Route::get('tutoring-agency/{tutoring_agency}/facility/datatables', 'FacilityController@datatablesLoad')->name('facility.datatables');
         Route::post('tutoring-agency/facility/{tutoring_agency}', 'FacilityController@store')->name('facility.store');

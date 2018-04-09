@@ -27,7 +27,7 @@
         $('[name=_method]').val("PATCH")
         url_facility = "{{ url('institution/tutoring-agency/facility') . '/' }}" + id
         $("#facility-modal-label").html("Update Facility")
-        $("#facility-modal-btn").attr("class", "btn btn-primary")
+        $("#facility-modal-btn").attr("class", "btn btn-info")
         $("#facility-modal-btn").html("UPDATE")
 
         $.ajax({

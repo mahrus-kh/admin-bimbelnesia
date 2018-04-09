@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Lbb;
 
 use App\Model\StudyProgram;
+use App\Model\TutoringAgency;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\DataTables;
 
 class StudyProgramController extends Controller
 {
@@ -31,18 +33,24 @@ class StudyProgramController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $tutoring_agency)
     {
-        //
+        StudyProgram::create([
+            'tutoring_agency_id' => $tutoring_agency,
+            'study_program' => $request->study_program,
+            'cost' => $request->cost
+        ]);
+
+        return response()->json(['msg' => 'Berhasil Simpan !'], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -53,35 +61,56 @@ class StudyProgramController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(StudyProgram $study_program)
     {
-        //
+        return response()->json($study_program);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, StudyProgram $study_program)
     {
-        //
+        $study_program->update([
+            'study_program' => $request->study_program,
+            'cost' => $request->cost
+        ]);
+
+        return response()->json(['msg' => 'Berhasil Update !'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(StudyProgram $study_program)
     {
         $study_program->delete();
-        return response()->json(['msg' => 'Berhasil Hapus !'],200);
+        return response()->json(['msg' => 'Berhasil Hapus !'], 200);
+    }
+
+    public function datatablesLoad(TutoringAgency $tutoring_agency)
+    {
+        $study_program = $tutoring_agency->study_program()->get(['id', 'study_program', 'cost']);
+
+        return DataTables::of($study_program)
+            ->addcolumn('actions', function ($study_program) {
+                return '
+                <a onclick="edit_study_program(' . $study_program->id . ')" class="btn btn-info btn-xs" target="_blank"><i class="fa fa-pencil"></i></a>
+                <a onclick="destroy_study_program(' . $study_program->id . ')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+
     }
 }

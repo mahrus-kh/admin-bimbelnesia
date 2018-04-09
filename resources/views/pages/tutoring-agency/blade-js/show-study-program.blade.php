@@ -28,7 +28,7 @@
         $('[name=_method]').val("PATCH")
         url_study_program = "{{ url('institution/tutoring-agency/study-program') . '/' }}" + id
         $("#study-program-modal-label").html("Update Study Program")
-        $("#study-program-modal-btn").attr("class", "btn btn-primary")
+        $("#study-program-modal-btn").attr("class", "btn btn-info")
         $("#study-program-modal-btn").html("UPDATE")
 
         $.ajax({

@@ -45,6 +45,12 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'lembaga' => [
+            'driver' => 'session',
+            'provider' => 'lembagas',
+        ],
+
     ],
 
     /*
@@ -68,6 +74,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Model\Admin::class,
+        ],
+
+        'lembagas' => [
+            'driver' => 'eloquent',
+            'model' => App\Model\AccountLogin::class,
         ],
 
         // 'users' => [

@@ -115,7 +115,7 @@ class TutoringAgencyController extends Controller
     {
         $this->validate($request, [
             'tutoring_agency' => 'required|max:255',
-            'logo_image' => 'image',
+            'logo_image' => 'image|mimes:jpeg,jpg,png|max:500',
             'address' => 'required|max:255',
             'description' => 'required|max:500',
             'tags' => 'max:255',

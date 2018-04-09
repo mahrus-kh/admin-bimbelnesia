@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Admin;
-use App\User;
 
 class AuthController extends Controller
 {

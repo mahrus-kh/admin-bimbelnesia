@@ -19,8 +19,6 @@ class TutoringAgencyController extends Controller
     {
         $tutoring_agency = TutoringAgency::all(['tutoring_agency']);
 
-        $token = "rahasia";
-
         $response = [
             'msg' => 'All Data Lembaga',
             'data' => $tutoring_agency
@@ -90,14 +88,14 @@ class TutoringAgencyController extends Controller
     public function edit($id)
     {
         $tutoring_agency = TutoringAgency::find($id);
-        $category = Category::all(['id','category']);
-        $sub_category = SubCategory::all(['id','sub_category']);
+        $category = Category::all(['id', 'category']);
+        $sub_category = SubCategory::all(['id', 'sub_category']);
 
         $response = [
             'msg' => 'Edit Data Tutoring Agency',
             'data' => [
                 'profil' => $tutoring_agency,
-                'category'  => $category,
+                'category' => $category,
                 'sub_category' => $sub_category
             ]
         ];
@@ -113,21 +111,33 @@ class TutoringAgencyController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        $this->validate($request, [
-//            'category_id' => 'required',
-//            'sub_category_id' => 'required',
-//            'tutoring_agency' => 'required|max:255',
-//            'address' => 'required|max:255',
-//            'description' => 'required|max:500',
-//            'tags' => 'max:255',
-//        ]);
+        $this->validate($request, [
+            'category_id' => 'required',
+            'sub_category_id' => 'required',
+            'tutoring_agency' => 'required|max:255',
+            'logo_image' => 'image|mimes:jpeg,jpg,png|max:500',
+            'address' => 'required|max:255',
+            'description' => 'required|max:500',
+            'tags' => 'max:255',
+        ]);
 
         $tutoring_agency = TutoringAgency::find($id);
+
+        $logo_image = $tutoring_agency->logo_image;
+        if ($request->hasFile('logo_image')) {
+            if ($tutoring_agency->logo_image != "upload/logo/default-logo.png") {
+                unlink(public_path($tutoring_agency->logo_image));
+            }
+            $logo_image = 'upload/logo/' . str_slug($request->tutoring_agency) . '.' . $request->logo_image->getClientOriginalExtension();
+            $request->logo_image->move(public_path('upload/logo/'), $logo_image);
+        }
+
         $tutoring_agency->update([
-//            'category_id' => $request->category_id,
-//            'sub_category_id' => $request->sub_category_id,
+            'category_id' => $request->category_id,
+            'sub_category_id' => $request->sub_category_id,
             'slug' => str_slug($request->tutoring_agency),
             'tutoring_agency' => $request->tutoring_agency,
+            'logo_image' => $logo_image,
             'address' => $request->address,
             'description' => $request->description,
             'tags' => explode(",", $request->tags),

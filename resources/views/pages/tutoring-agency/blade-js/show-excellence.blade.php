@@ -27,7 +27,7 @@
         $('[name=_method]').val("PATCH")
         url_excellence = "{{ url('institution/tutoring-agency/excellence') . '/' }}" + id
         $("#excellence-modal-label").html("Update Excellence")
-        $("#excellence-modal-btn").attr("class", "btn btn-primary")
+        $("#excellence-modal-btn").attr("class", "btn btn-info")
         $("#excellence-modal-btn").html("UPDATE")
 
         $.ajax({
