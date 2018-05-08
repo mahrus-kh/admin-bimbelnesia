@@ -17,6 +17,7 @@ class CreateSubCategoriesTable extends Migration
             $table->increments('id');
             $table->string('slug', 191)->unique();
             $table->string('sub_category');
+            $table->string('fa_icon');
             $table->timestamps();
         });
     }

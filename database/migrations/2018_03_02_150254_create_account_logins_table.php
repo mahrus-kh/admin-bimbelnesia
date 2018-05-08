@@ -16,8 +16,12 @@ class CreateAccountLoginsTable extends Migration
         Schema::create('account_logins', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('tutoring_agency_id');
-            $table->string('email',191)->nullable()->unique();
+            $table->string('name');
+            $table->string('phone',13)->nullable();
+            $table->string('address')->nullable();
+            $table->string('email',191)->unique()->nullable();
             $table->string('password')->nullable();
+            $table->enum('status', ['1','0']);
             $table->rememberToken();
             $table->timestamps();
 

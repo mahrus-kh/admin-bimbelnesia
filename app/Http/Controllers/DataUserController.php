@@ -42,7 +42,8 @@ class DataUserController extends Controller
             'address' => $request->address,
             'email' => $request->email,
             'password' => bcrypt("12345678"),
-            'status' => $request->status
+            'status' => $request->status,
+            'api_token' => bcrypt($request->email)
         ]);
     }
 
@@ -83,7 +84,8 @@ class DataUserController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'email' => $request->email,
-            'status' => $request->status
+            'status' => $request->status,
+            'api_token' => bcrypt($request->email)
         ]);
     }
 

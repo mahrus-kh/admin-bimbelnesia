@@ -10,6 +10,7 @@
             ajax: "{{route('sub-category.datatables')}}",
             columns: [
                 {data: 'sub_category', name: 'sub_category'},
+                {data: 'fa_icon', name: 'fa_icon'},
                 {data: 'actions', name: 'actions', class: 'text-center', orderable: false}
             ]
         });
@@ -36,6 +37,7 @@
             dataType: "JSON",
             success: function (data) {
                 $('[name=sub_category]').val(data.sub_category)
+                $('[name=fa_icon]').val(data.fa_icon)
                 $('.sub-category-modal').modal("show")
             },
             error: function () {

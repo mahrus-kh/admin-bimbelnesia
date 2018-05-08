@@ -4,14 +4,19 @@
         tutoring_agency_dt = $("#tutoring-agency-datatables").DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{route('tutoring-agency.datatables')}}",
+            ajax: {
+                url: "{{route('tutoring-agency.datatables')}}",
+                error: function () {
+                    window.location.replace("{{ route('login') }}")
+                }
+            },
             columns: [
                 {data: 'tutoring_agency', name: 'tutoring_agency'},
                 {data: 'verified', class: 'text-center',
                     render: function (data, type, row) {
-                        if (row.verified == 0){
+                        if (row.verified === "0"){
                             return '<label for="" class="label bg-orange">Unverified</label>'
-                        } else if (row.verified == 1){
+                        } else if (row.verified === "1"){
                             return '<label for="" class="label bg-green">Verified</label>'
                         }
                     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Lbb;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
+use Namshi\JOSE\JWT;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -34,7 +35,7 @@ class AuthController extends Controller
             if (!$token = JWTAuth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 return response()->json([
                     'msg' => 'Email or password are incorrect',
-                ],  401);
+                ], 401);
             }
         } catch (JWTException $e) {
             return response()->json([
@@ -44,7 +45,7 @@ class AuthController extends Controller
 
         $response = [
             'msg' => 'Login Success',
-            'id' => JWTAuth::authenticate($token)->id,
+            'account' => JWTAuth::authenticate($token),
             'token' => $token
 
         ];
@@ -52,10 +53,15 @@ class AuthController extends Controller
         return response()->json($response, 200);
     }
 
-    public function mainkan (Request $request)
+    public function checkCookies($token)
+    {
+        return response()->json(['token' => JWTAuth::authenticate($token)]);
+    }
+
+    public function mainkan(Request $request)
     {
 //        $siapa = auth()->user();
-//        return response()->json(['msg' => "IKA YUNI KOMARIYAH", 'siapa' => $siapa, 're' => $request->token], 200);
+//        return response()->json(['msg' => "IKA YUNI", 'siapa' => $siapa, 're' => $request->token], 200);
 //        $token = apache_request_headers('');
 //        try {
 //            if (!$token = JWTAuth::attempt(['email' => "mahrus.khomaini@gmail.com", 'password' => "21200786"])) {
@@ -80,6 +86,6 @@ class AuthController extends Controller
             'usernya' => auth()->user()
         ];
 
-        return response()->json($response);
+        return response()->json($response)->header('judul', 'isinyaaaa');
     }
 }

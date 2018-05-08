@@ -37,8 +37,9 @@ class SubCategoryController extends Controller
     public function store(Request $request)
     {
         return SubCategory::create([
+            'slug' => str_slug($request->sub_category),
             'sub_category' => $request->sub_category,
-            'slug' => str_slug($request->sub_category)
+            'fa_icon' => $request->fa_icon
         ]);
     }
 
@@ -75,8 +76,9 @@ class SubCategoryController extends Controller
     public function update(Request $request, SubCategory $sub_category)
     {
         $sub_category->update([
+            'slug' => str_slug($request->sub_category),
             'sub_category' => $request->sub_category,
-            'slug' => str_slug($request->sub_category)
+            'fa_icon' => $request->fa_icon
         ]);
     }
 
@@ -93,7 +95,7 @@ class SubCategoryController extends Controller
 
     public function datatablesLoad()
     {
-        $sub_category = SubCategory::all(['id', 'sub_category']);
+        $sub_category = SubCategory::all(['id', 'sub_category','fa_icon']);
 
         return DataTables::of($sub_category)
             ->addColumn('actions', function ($sub_category) {

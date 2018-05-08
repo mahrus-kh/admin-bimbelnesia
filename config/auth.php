@@ -46,11 +46,20 @@ return [
             'provider' => 'users',
         ],
 
-        'lembaga' => [
+        'admin' => [
             'driver' => 'session',
-            'provider' => 'lembagas',
+            'provider' => 'admins',
         ],
 
+        'user' => [
+            'driver' => 'session',
+            'provider' => 'data-users',
+        ],
+
+        'user-api' => [
+            'driver' => 'token',
+            'provider' => 'data-us',
+        ],
     ],
 
     /*
@@ -73,12 +82,17 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
+            'model' => App\Model\AccountLogin::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
             'model' => App\Model\Admin::class,
         ],
 
-        'lembagas' => [
+        'data-users' => [
             'driver' => 'eloquent',
-            'model' => App\Model\AccountLogin::class,
+            'model' => App\Model\DataUser::class,
         ],
 
         // 'users' => [

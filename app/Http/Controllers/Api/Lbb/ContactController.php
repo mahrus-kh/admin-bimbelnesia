@@ -6,6 +6,8 @@ use App\Model\Contact;
 use App\Model\TutoringAgency;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ContactController extends Controller
 {
@@ -46,9 +48,10 @@ class ContactController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(TutoringAgency $contact)
+    public function show($token)
     {
-        foreach ($contact->contact()->get() as $contacts) {
+        $tutoring_agency = TutoringAgency::find(JWTAuth::authenticate($token)->tutoring_agency_id);
+        foreach ($tutoring_agency->contact()->get() as $contacts) {
             $contact = $contacts;
         }
 
@@ -75,6 +78,7 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
+
         $contact->update([
             'website' => $request->website,
             'office_phone' => $request->office_phone,

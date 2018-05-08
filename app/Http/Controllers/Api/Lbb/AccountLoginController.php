@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Api\Lbb;
 
+use App\Model\AccountLogin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Namshi\JOSE\JWT;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AccountLoginController extends Controller
 {
@@ -14,7 +18,7 @@ class AccountLoginController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -44,9 +48,17 @@ class AccountLoginController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($token)
     {
-        //
+        $account = JWTAuth::authenticate($token);
+
+        $response = [
+            'msg' => 'Akun Login',
+            'account' => $account
+        ];
+
+        return response()->json($response);
+
     }
 
     /**
@@ -67,9 +79,18 @@ class AccountLoginController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $token)
     {
-        //
+        $account = AccountLogin::find(JWTAuth::authenticate($token)->id);
+        $account->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+
+        return response()->json(['msg' => 'Berhasil Update !'], 200);
     }
 
     /**

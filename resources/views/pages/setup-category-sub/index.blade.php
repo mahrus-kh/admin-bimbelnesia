@@ -1,7 +1,7 @@
 @extends('templates.default')
 @section('content')
    <div class="row">
-       <div class="col-md-6 col-sm-6 col-xs-12">
+       <div class="col-md-5 col-sm-5 col-xs-12">
            <div class="x_panel">
                <div class="x_title">
                    <h2>Data Category</h2>
@@ -27,7 +27,7 @@
                </div>
            </div>
        </div>
-       <div class="col-md-6 col-sm-6 col-xs-12">
+       <div class="col-md-7 col-sm-7 col-xs-12">
            <div class="x_panel">
                <div class="x_title">
                    <h2>Data Sub Category</h2>
@@ -43,6 +43,7 @@
                            <thead>
                            <tr>
                                <th>Sub Category</th>
+                               <th>Fa Icon</th>
                                <th class="text-center">Actions</th>
                            </tr>
                            </thead>

@@ -21,6 +21,8 @@ class CreateDataUsersTable extends Migration
             $table->string('email',191)->unique();
             $table->string('password');
             $table->enum('status', ['1','0']);
+            $table->string('term',750)->nullable();
+            $table->string('api_token', 191)->unique();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -7,6 +7,8 @@ use App\Model\TutoringAgency;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\DataTables;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FacilityController extends Controller
 {
@@ -36,10 +38,10 @@ class FacilityController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $tutoring_agency)
+    public function store(Request $request, $token)
     {
         Facility::create([
-            'tutoring_agency_id' => $tutoring_agency,
+            'tutoring_agency_id' => JWTAuth::authenticate($token)->tutoring_agency_id,
             'facility' => $request->facility
         ]);
 
@@ -96,8 +98,9 @@ class FacilityController extends Controller
         return response()->json(['msg' => 'Berhasil Hapus !'], 200);
     }
 
-    public function datatablesLoad(TutoringAgency $tutoring_agency)
+    public function datatablesLoad($token)
     {
+        $tutoring_agency = TutoringAgency::find(JWTAuth::authenticate($token)->tutoring_agency_id);
         $facility = $tutoring_agency->facility()->get(['id', 'facility']);
 
         return DataTables::of($facility)

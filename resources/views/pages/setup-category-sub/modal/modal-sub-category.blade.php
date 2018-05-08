@@ -12,6 +12,10 @@
                         <input type="text" name="sub_category" class="form-control" minlength="3" maxlength="255" placeholder="Sub Category" autocomplete="off" autofocus required>
                         <span class="help-block with-errors"></span>
                     </div>
+                    <div class="form-group">
+                        <input type="text" name="fa_icon" class="form-control" minlength="3" maxlength="255" placeholder="Fa Icon" autocomplete="off" autofocus required>
+                        <span class="help-block with-errors"></span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

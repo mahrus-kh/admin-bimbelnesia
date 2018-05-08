@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Model\Category;
 use App\Model\SubCategory;
+use App\Model\Term;
 use App\Model\TutoringAgency;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Http\Controllers\PreProcessingController as PreProcessing;
 
 class TutoringAgencyController extends Controller
 {
@@ -55,7 +57,14 @@ class TutoringAgencyController extends Controller
         ]);
 
         $tutoring_agency->contact()->create();
-        $tutoring_agency->accountLogin()->create();
+        $tutoring_agency->accountLogin()->create([
+            'name' => 'Administrator'
+        ]);
+
+        Term::create([
+            'lbb_id' => $tutoring_agency->id,
+            'term' => ''
+        ]);
 
         return redirect()->route('tutoring-agency.index');
     }
@@ -143,6 +152,8 @@ class TutoringAgencyController extends Controller
             'verified' => $request->verified,
         ]);
 
+        $this->createTerm($tutoring_agency->id);
+
         return redirect()->back();
     }
 
@@ -179,5 +190,20 @@ class TutoringAgencyController extends Controller
     public function tampilkan(TutoringAgency $tutoring_agency)
     {
         return view('tampilkan', compact('tutoring_agency'));
+    }
+
+    private function createTerm($tutoring_agency_id)
+    {
+        $term = TutoringAgency::select('description','tags')->where('id', $tutoring_agency_id)->first();
+        $term = implode(' ', $term->tags) . " " . $term->description;
+
+        $term = PreProcessing::stemming($term);
+
+        return Term::where('lbb_id', $tutoring_agency_id)->update(['term' => $term]);
+    }
+
+    public function bikin()
+    {
+
     }
 }

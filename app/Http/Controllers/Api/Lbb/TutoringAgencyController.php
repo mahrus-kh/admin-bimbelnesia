@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Api\Lbb;
 use App\Model\Category;
 use App\Model\SubCategory;
 use App\Model\TutoringAgency;
+use App\Model\Term;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PreProcessingController as PreProcessing;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TutoringAgencyController extends Controller
 {
@@ -17,13 +21,7 @@ class TutoringAgencyController extends Controller
      */
     public function index()
     {
-        $tutoring_agency = TutoringAgency::all(['tutoring_agency']);
 
-        $response = [
-            'msg' => 'All Data Lembaga',
-            'data' => $tutoring_agency
-        ];
-        return response()->json($response, 200);
     }
 
     /**
@@ -53,9 +51,9 @@ class TutoringAgencyController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($token)
     {
-        $tutoring_agency = TutoringAgency::find($id);
+        $tutoring_agency = TutoringAgency::find(JWTAuth::authenticate($token)->tutoring_agency_id);
 
         foreach ($tutoring_agency->category_id as $categories) {
             $category = Category::find($categories, ['category']);
@@ -85,18 +83,17 @@ class TutoringAgencyController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($token)
     {
-        $tutoring_agency = TutoringAgency::find($id);
+        $tutoring_agency = TutoringAgency::find(JWTAuth::authenticate($token)->tutoring_agency_id);
         $category = Category::all(['id', 'category']);
         $sub_category = SubCategory::all(['id', 'sub_category']);
-
         $response = [
             'msg' => 'Edit Data Tutoring Agency',
             'data' => [
                 'profil' => $tutoring_agency,
                 'category' => $category,
-                'sub_category' => $sub_category
+                'sub_category' => $sub_category,
             ]
         ];
         return response()->json($response, 200);
@@ -109,7 +106,7 @@ class TutoringAgencyController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $token)
     {
         $this->validate($request, [
             'category_id' => 'required',
@@ -121,7 +118,7 @@ class TutoringAgencyController extends Controller
             'tags' => 'max:255',
         ]);
 
-        $tutoring_agency = TutoringAgency::find($id);
+        $tutoring_agency = TutoringAgency::find(JWTAuth::authenticate($token)->tutoring_agency_id);
 
         $logo_image = $tutoring_agency->logo_image;
         if ($request->hasFile('logo_image')) {
@@ -140,8 +137,10 @@ class TutoringAgencyController extends Controller
             'logo_image' => $logo_image,
             'address' => $request->address,
             'description' => $request->description,
-            'tags' => explode(",", $request->tags),
+            'tags' => array_filter(array_unique(explode(",", $request->tags))),
         ]);
+
+        $this->createTerm($tutoring_agency->id);
 
         return response()->json(['msg' => 'Berhasil Update !'], 200);
     }
@@ -155,5 +154,27 @@ class TutoringAgencyController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function shortProfile($token)
+    {
+        $tutoring_agency = TutoringAgency::find(JWTAuth::authenticate($token)->tutoring_agency_id, ['tutoring_agency','verified']);
+        $response = [
+            'msg' => 'Data Lembaga',
+            'data' => [
+                'profil' => $tutoring_agency,
+            ]
+        ];
+        return response()->json($response, 200);
+    }
+
+    private function createTerm($tutoring_agency_id)
+    {
+        $term = TutoringAgency::select('description','tags')->where('id', $tutoring_agency_id)->first();
+        $term = implode(' ', $term->tags) . " " . $term->description;
+
+        $term = PreProcessing::stemming($term);
+
+        return Term::where('lbb_id', $tutoring_agency_id)->update(['term' => $term]);
     }
 }

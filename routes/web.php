@@ -15,13 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('tampilkan/{tutoring_agency}', 'TutoringAgencyController@tampilkan');
+Route::get('bikin', 'TutoringAgencyController@bikin');
+Route::get('stem', 'MainLaporan@stem');
+
 
 Route::middleware('guest')->group(function () {
     Route::get('login', 'AuthController@getLogin')->name('login');
     Route::post('login', 'AuthController@postLogin')->name('auth.postLogin');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:admin')->group(function () {
+
     Route::get('logout', 'AuthController@getLogout')->name('auth.getLogout');
 
     Route::group(['prefix' => 'institution'], function () {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\TutoringAgency;
 use Illuminate\Http\Request;
 use App\Model\Admin;
 
@@ -19,7 +20,7 @@ class AuthController extends Controller
             'password' => 'required|max:255',
         ]);
 
-        if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('tutoring-agency.index');
         }
 
@@ -41,12 +42,12 @@ class AuthController extends Controller
 //
 //		dd($bikin);
 
-        dd(auth()->user());
+        dd(auth('admin')->user());
     }
 
     public function getLogout()
     {
-        auth()->logout();
+        auth('admin')->logout();
         return redirect()->route('login');
     }
 }

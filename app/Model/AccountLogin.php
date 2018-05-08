@@ -15,7 +15,7 @@ class AccountLogin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'tutoring_agency_id', 'email', 'password',
+        'tutoring_agency_id', 'name', 'phone', 'address', 'email', 'password',
     ];
 
     /**
