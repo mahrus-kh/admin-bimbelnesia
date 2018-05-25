@@ -201,9 +201,4 @@ class TutoringAgencyController extends Controller
 
         return Term::where('lbb_id', $tutoring_agency_id)->update(['term' => $term]);
     }
-
-    public function bikin()
-    {
-
-    }
 }

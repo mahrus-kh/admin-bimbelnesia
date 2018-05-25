@@ -14,7 +14,7 @@ class FeedbackController extends Controller
     {
         $check = Rating::select('id')->where('data_user_id', $request->user_id)->first();
         if (count($check) > 0){
-            return response()->json(['msg' => 'Sudah Memberika Feedback Sebelumnya'], 204);
+            return response()->json(['msg' => 'Sudah Memberikan Feedback Sebelumnya'], 204);
         }
 
         $tutoring_agency = TutoringAgency::select('id')->where('slug', $slug)->first();
@@ -29,6 +29,9 @@ class FeedbackController extends Controller
             'comment' => $request->comment
         ]);
 
+        $tutoring_agency->update([
+            'rating' => $this->countRating($tutoring_agency->id)
+        ]);
 
         return response()->json(['msg' => 'Feedback Berhasil'], 200);
     }
@@ -36,5 +39,10 @@ class FeedbackController extends Controller
     public function showFeedbackLembaga($slug)
     {
 
+    }
+
+    private function countRating($tutoring_agency_id)
+    {
+        return Rating::where('tutoring_agency_id', $tutoring_agency_id)->avg('rating');
     }
 }

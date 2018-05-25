@@ -12,14 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
+
 Route::get('tampilkan/{tutoring_agency}', 'TutoringAgencyController@tampilkan');
-Route::get('bikin', 'TutoringAgencyController@bikin');
-Route::get('stem', 'MainLaporan@stem');
+Route::get('stem', 'Api\User\FeedbackController@countRating');
 
 
 Route::middleware('guest')->group(function () {
+
     Route::get('login', 'AuthController@getLogin')->name('login');
     Route::post('login', 'AuthController@postLogin')->name('auth.postLogin');
 });

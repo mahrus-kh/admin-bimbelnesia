@@ -17,7 +17,7 @@ class CreateRatingsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('data_user_id');
             $table->unsignedInteger('tutoring_agency_id');
-            $table->string('rating', 1);
+            $table->float('rating','2','1');
             $table->timestamps();
 
             $table->foreign('data_user_id')->references('id')->on('data_users')->onDelete('CASCADE');

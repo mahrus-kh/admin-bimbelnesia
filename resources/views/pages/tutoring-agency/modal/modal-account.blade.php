@@ -9,7 +9,7 @@
                 {{ method_field('PATCH') }}
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Study Program<span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Email<span class="required">*</span></label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <input type="email" name="email_account" class="form-control col-md-7 col-xs-12" maxlength="255" required>
                             <span class="help-block with-errors"></span>

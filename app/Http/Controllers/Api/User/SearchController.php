@@ -10,12 +10,12 @@ class SearchController extends Controller
 {
     public function doSearch(Request $request)
     {
-        $search = explode(' ', $request->search);
+        $search = preg_replace("/[^a-zA-Z\ ]/"," ",strtolower($request->search));
+        $search = array_values(array_filter(explode(" ",$search)));
 
         $lembaga = TutoringAgency::select('slug','tutoring_agency','rating')
             ->where('tutoring_agency', 'REGEXP', implode('|', $search))
             ->get();
-
 
         if (count($lembaga) === 0){
             return response()->json(['msg' => 'Content Not Found'],204);
