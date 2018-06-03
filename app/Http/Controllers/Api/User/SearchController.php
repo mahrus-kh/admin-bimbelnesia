@@ -13,7 +13,7 @@ class SearchController extends Controller
         $search = preg_replace("/[^a-zA-Z\ ]/"," ",strtolower($request->search));
         $search = array_values(array_filter(explode(" ",$search)));
 
-        $lembaga = TutoringAgency::select('slug','tutoring_agency','rating')
+        $lembaga = TutoringAgency::select('id','slug','tutoring_agency','rating')
             ->where('tutoring_agency', 'REGEXP', implode('|', $search))
             ->get();
 
@@ -22,7 +22,8 @@ class SearchController extends Controller
         }
 
         foreach ($lembaga as $row) {
-            $row->total_comments = rand(52,137);
+            $tutoring_agency_id = TutoringAgency::find($row->id);
+            $row->total_comments  = $tutoring_agency_id->feedback()->count();
         }
 
         $response = [

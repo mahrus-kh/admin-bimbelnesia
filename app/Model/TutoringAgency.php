@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class TutoringAgency extends Model
@@ -46,16 +47,11 @@ class TutoringAgency extends Model
         return $this->hasOne(AccountLogin::class);
     }
 
-    public function comment()
+    public function feedback()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Rating::class)->orderBy('updated_at','DESC');
     }
-
-    public function rating()
-    {
-        return $this->hasMany(Rating::class);
-    }
-
+                                              
     public function term()
     {
         return $this->hasOne(Term::class);
@@ -95,7 +91,7 @@ class TutoringAgency extends Model
 
     public function showByCategory($category_id)
     {
-        $lembaga = TutoringAgency::select('slug','tutoring_agency','rating')
+        $lembaga = TutoringAgency::select('id','slug','tutoring_agency','rating')
             ->where('category_id', 'like', '%' . $category_id . '%')
             ->orderBy('rating', 'DESC')
             ->get();
@@ -105,7 +101,7 @@ class TutoringAgency extends Model
 
     public function showBySubCategory($sub_category_id)
     {
-        $lembaga = TutoringAgency::select('slug','tutoring_agency','rating')
+        $lembaga = TutoringAgency::select('id','slug','tutoring_agency','rating')
             ->where('sub_category_id', 'like', '%' . $sub_category_id . '%')
             ->orderBy('rating', 'DESC')
             ->get();

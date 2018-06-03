@@ -12,20 +12,18 @@ class FeedbackController extends Controller
 {
     public function doFeedback(Request $request, $slug)
     {
-        $check = Rating::select('id')->where('data_user_id', $request->user_id)->first();
+        $tutoring_agency = TutoringAgency::select('id')->where('slug', $slug)->first();
+
+        $check = Rating::select('id')
+            ->where(['data_user_id' => $request->user_id, 'tutoring_agency_id' => $tutoring_agency->id])
+            ->first();
         if (count($check) > 0){
             return response()->json(['msg' => 'Sudah Memberikan Feedback Sebelumnya'], 204);
         }
 
-        $tutoring_agency = TutoringAgency::select('id')->where('slug', $slug)->first();
-
-        $tutoring_agency->rating()->create([
+        $tutoring_agency->feedback()->create([
             'data_user_id' => $request->user_id,
-            'rating' => $request->rating
-        ]);
-
-        $tutoring_agency->comment()->create([
-            'data_user_id' => $request->user_id,
+            'rating' => $request->rating,
             'comment' => $request->comment
         ]);
 

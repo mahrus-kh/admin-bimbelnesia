@@ -42,7 +42,8 @@ class SubCategoryController extends Controller
         $lembaga = $sub_category->showBySubCategory($sub_category_id->id);
 
         foreach ($lembaga as $row) {
-            $row->total_comments = rand(52,103);
+            $tutoring_agency_id = TutoringAgency::find($row->id);
+            $row->total_comments  = $tutoring_agency_id->feedback()->count();
         }
 
         $response = [

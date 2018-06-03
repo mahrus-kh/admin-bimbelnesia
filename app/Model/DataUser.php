@@ -26,4 +26,9 @@ class DataUser extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

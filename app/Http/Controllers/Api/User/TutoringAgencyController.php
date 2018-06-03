@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Model\Rating;
 use App\Model\TutoringAgency;
 use App\Model\Category;
 use App\Model\SubCategory;
@@ -30,10 +31,15 @@ class TutoringAgencyController extends Controller
             $sub_category_array [] = $sub_category->sub_category;
         }
 
+        foreach ($tutoring_agency->feedback as $feedback){
+            $data_user = Rating::find($feedback->id);
+            $feedback->name_user = $data_user->dataUser->name;
+        }
+
         $tutoring_agency->category_id = $category_array;
         $tutoring_agency->sub_category_id = $sub_category_array;
         $tutoring_agency->total_views = $this->updateTotalViews($tutoring_agency->id, $tutoring_agency->total_views);
-        $tutoring_agency->total_comments = rand(73,108);
+        $tutoring_agency->total_comments = $tutoring_agency->feedback()->count();
 
         $response = [
             'msg' => 'Data Lembaga',
@@ -55,7 +61,7 @@ class TutoringAgencyController extends Controller
 
     public function showPopularLembaga()
     {
-        $tutoring_agency = TutoringAgency::select('slug','tutoring_agency','description','rating')
+        $tutoring_agency = TutoringAgency::select('id','slug','tutoring_agency','description','rating')
             ->orderBy('rating','DESC')
             ->orderBy('total_views', 'DESC')
             ->limit(4)
@@ -63,7 +69,8 @@ class TutoringAgencyController extends Controller
 
         foreach ($tutoring_agency as $row) {
             $row->description = str_limit($row->description, 160);
-            $row->total_comments  = rand(23,143);
+            $tutoring_agency_id = TutoringAgency::find($row->id);
+            $row->total_comments  = $tutoring_agency_id->feedback()->count();
         }
 
         $response = [
@@ -76,12 +83,13 @@ class TutoringAgencyController extends Controller
 
     public function listAllLembaga()
     {
-        $lembaga = TutoringAgency::select('slug','tutoring_agency','rating')
+        $lembaga = TutoringAgency::select('id','slug','tutoring_agency','rating')
             ->orderBy('rating', 'DESC')
             ->get();
 
         foreach ($lembaga as $row) {
-            $row->total_comments = rand(52,103);
+            $tutoring_agency_id = TutoringAgency::find($row->id);
+            $row->total_comments  = $tutoring_agency_id->feedback()->count();
         }
 
         $response = [
