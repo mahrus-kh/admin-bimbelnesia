@@ -72,6 +72,7 @@ Route::group(['prefix' => 'v1/user', 'middleware' => 'cors'], function () {
     Route::get('search', 'Api\User\SearchController@doSearch');
 
     Route::post('login', 'Api\User\AuthController@doLogin');
+    Route::post('oauth', 'Api\User\AuthController@handleOAuthProvider');
     Route::post('register', 'Api\User\AuthController@doRegister');
     Route::post('reset-password', 'Api\User\AuthController@doResetPassword');
 });

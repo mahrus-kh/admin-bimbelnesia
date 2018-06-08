@@ -15,7 +15,7 @@ class DataUser extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'address', 'email', 'password', 'status','api_token'
+        'name', 'nickname', 'phone', 'address', 'email', 'password', 'provider_id', 'provider', 'status','api_token'
     ];
 
     /**

@@ -49,4 +49,35 @@ class AuthController extends Controller
     {
         
     }
+
+    public function handleOAuthProvider(Request $request)
+    {
+        $authUser = DataUser::where('provider_id', $request->provider_id)->first();
+
+        if ($authUser){
+            $authUser->update([
+                'name' => $request->name,
+                'nickname' => $request->nickname,
+                'email' => $request->email,
+                'api_token' => bcrypt($request->email . $request->provider_id)
+            ]);
+        } else {
+            $authUser = DataUser::create([
+                'name' => $request->name,
+                'nickname' => $request->nickname,
+                'email' => $request->email,
+                'provider_id' => $request->provider_id,
+                'provider' => $request->provider,
+                'status' => '1',
+                'api_token' => bcrypt($request->email . $request->provider_id)
+            ]);
+        }
+
+        auth('user')->login($authUser);
+        $response = [
+            'msg' => 'Login Success',
+            'user' => auth('user')->user()
+        ];
+        return response()->json($response, 200);
+    }
 }
